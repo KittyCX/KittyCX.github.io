@@ -1,0 +1,287 @@
+/* ==========================================================================
+   Leo Xu — personal profile page
+   Reconstructed from Figma file JC08tm1LsHAhouXdCM1mfD ("Untitled")
+   Structure mirrors the Figma frames: Hero / Rock climbing / Footer
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Design tokens
+   -------------------------------------------------------------------------- */
+:root {
+  /* palette — sampled from the design canvas */
+  --ink-900: #070c1c;
+  --ink-800: #0b1126;
+  --ink-700: #18213c;
+  --ink-600: #1c2745;
+
+  --gold-500: #e9b949;
+  --gold-400: #f0c463;
+  --gold-200: #fbe7b8;
+
+  --paper-50: #efe7d8;
+  --paper-700: #5d564c;
+
+  /* type */
+  --font-display: "Playfair Display", "Iowan Old Style", Georgia, serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --text-hero: clamp(54px, 9.2vw, 132px);
+  --text-section: clamp(20px, 2.2vw, 30px);
+  --text-eyebrow: clamp(9px, 0.72vw, 10px);
+  --text-note: clamp(12px, 1vw, 14px);
+
+  /* layout */
+  --gutter: clamp(20px, 4vw, 58px);
+  --hero-height: clamp(520px, 80vh, 880px);
+}
+
+/* --------------------------------------------------------------------------
+   2. Reset
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--paper-50);
+  color: var(--ink-800);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+::selection {
+  background: rgba(233, 185, 73, 0.28);
+}
+
+/* --------------------------------------------------------------------------
+   3. Hero
+   -------------------------------------------------------------------------- */
+.hero {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: var(--hero-height);
+  padding: var(--gutter);
+  overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 68% 8%, var(--ink-600) 0%, rgba(28, 39, 69, 0) 58%),
+    radial-gradient(90% 70% at 12% 78%, #131c33 0%, rgba(19, 28, 51, 0) 62%),
+    linear-gradient(168deg, var(--ink-800) 0%, var(--ink-900) 100%);
+}
+
+.hero__sky {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.hero__name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--text-hero);
+  line-height: 0.98;
+  letter-spacing: -0.012em;
+  color: var(--gold-500);
+  text-shadow: 0 0 34px rgba(233, 185, 73, 0.18);
+}
+
+.hero__eyebrow {
+  margin: 14px 0 0 2px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--text-eyebrow);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(233, 185, 73, 0.72);
+}
+
+.hero__scroll {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(18px, 3vw, 34px);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  transform: translateX(-50%);
+  color: rgba(233, 185, 73, 0.5);
+}
+
+.hero__scroll-label {
+  font-size: 9px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+
+.hero__scroll-line {
+  display: block;
+  width: 1px;
+  height: 26px;
+  background: linear-gradient(to bottom, rgba(233, 185, 73, 0.55), rgba(233, 185, 73, 0));
+}
+
+/* --------------------------------------------------------------------------
+   4. Rock climbing
+   -------------------------------------------------------------------------- */
+.climb {
+  position: relative;
+  line-height: 0;
+  background: var(--paper-50);
+}
+
+.climb__art {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.climb__title {
+  position: absolute;
+  top: clamp(26px, 9.5%, 120px);
+  left: var(--gutter);
+  z-index: 2;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--text-section);
+  line-height: 1.1;
+  letter-spacing: 0.015em;
+  color: var(--paper-700);
+  opacity: 0.52;
+  mix-blend-mode: multiply;
+}
+
+.climb__note {
+  position: absolute;
+  right: var(--gutter);
+  bottom: clamp(18px, 3vw, 40px);
+  z-index: 2;
+  max-width: 26ch;
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-note);
+  line-height: 1.7;
+  text-align: right;
+  color: var(--paper-700);
+  opacity: 0.5;
+}
+
+/* --------------------------------------------------------------------------
+   5. Footer
+   -------------------------------------------------------------------------- */
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px 28px;
+  padding: clamp(26px, 4vw, 46px) var(--gutter) clamp(34px, 5vw, 58px);
+  background: var(--paper-50);
+  border-top: 1px solid rgba(93, 86, 76, 0.12);
+}
+
+.site-footer__mark {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(15px, 1.3vw, 18px);
+  letter-spacing: 0.01em;
+  color: var(--paper-700);
+}
+
+.site-footer__meta {
+  margin: 0;
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(93, 86, 76, 0.55);
+}
+
+/* --------------------------------------------------------------------------
+   6. Sky animation
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  .twinkle {
+    animation: twinkle 5.5s ease-in-out infinite;
+  }
+
+  .twinkle:nth-of-type(3n) {
+    animation-delay: 1.4s;
+  }
+
+  .twinkle:nth-of-type(3n + 1) {
+    animation-delay: 2.6s;
+  }
+
+  @keyframes twinkle {
+    0%,
+    100% {
+      opacity: 0.32;
+    }
+    50% {
+      opacity: 0.95;
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   7. Responsive
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  :root {
+    --hero-height: clamp(480px, 74vh, 760px);
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --hero-height: min(70vh, 620px);
+  }
+
+  .climb__art {
+    height: 92vw;
+    object-fit: cover;
+    object-position: 50% 50%;
+  }
+
+  .climb__note {
+    display: none;
+  }
+
+  .site-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
