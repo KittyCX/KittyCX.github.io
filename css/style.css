@@ -428,6 +428,12 @@ img {
   border-bottom: 1px solid rgba(93, 86, 76, 0.12);
 }
 
+/* cards without expandable details: no divider above the bottom edge */
+.offer__head:last-child {
+  border-bottom: 0;
+  padding-bottom: clamp(24px, 3vw, 34px);
+}
+
 .offer__eyebrow {
   margin: 0;
   font-size: 9px;
