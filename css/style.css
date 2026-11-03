@@ -79,7 +79,7 @@ img {
   flex-direction: column;
   justify-content: flex-start;
   min-height: var(--hero-height);
-  padding: var(--gutter);
+  padding: calc(var(--gutter) + 54px) var(--gutter) var(--gutter);
   overflow: hidden;
   background:
     radial-gradient(120% 90% at 68% 8%, var(--ink-600) 0%, rgba(28, 39, 69, 0) 58%),
@@ -287,45 +287,70 @@ img {
 }
 
 /* --------------------------------------------------------------------------
-   8. In-hero navigation
+   8. Menu bar — fixed, shared by every page
    -------------------------------------------------------------------------- */
-.site-nav {
-  position: absolute;
-  top: var(--gutter);
-  right: var(--gutter);
-  z-index: 3;
+.menu-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
   display: flex;
   align-items: center;
-  gap: clamp(14px, 2.4vw, 28px);
+  justify-content: center;
+  gap: clamp(6px, 1.2vw, 14px);
+  padding: 12px var(--gutter);
+  background: rgba(7, 12, 28, 0.74);
+  -webkit-backdrop-filter: blur(14px) saturate(1.25);
+  backdrop-filter: blur(14px) saturate(1.25);
+  border-bottom: 1px solid rgba(233, 185, 73, 0.16);
 }
 
-.site-nav__link {
+.menu-bar__link {
+  padding: 8px clamp(13px, 1.8vw, 22px);
+  border-radius: 999px;
+  border: 1px solid transparent;
   font-size: 10px;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.26em;
   text-transform: uppercase;
   text-decoration: none;
-  color: rgba(233, 185, 73, 0.55);
-  transition: color 160ms ease;
+  white-space: nowrap;
+  color: rgba(239, 231, 216, 0.66);
+  transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease;
 }
 
-.site-nav__link:hover,
-.site-nav__link:focus-visible {
+.menu-bar__link:hover,
+.menu-bar__link:focus-visible {
   color: var(--gold-400);
+  border-color: rgba(233, 185, 73, 0.35);
 }
 
-.site-nav__link[aria-current="page"] {
-  color: var(--gold-500);
+.menu-bar__link[aria-current="page"] {
+  color: var(--ink-900);
+  background: linear-gradient(180deg, var(--gold-400) 0%, var(--gold-500) 100%);
+  border-color: transparent;
 }
 
-.site-footer__meta a {
+/* closing line under the offers grid */
+.help__outro {
+  margin: clamp(28px, 4vw, 44px) 0 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-note);
+  line-height: 1.8;
   color: var(--paper-700);
+}
+
+.help__outro a {
+  color: var(--ink-800);
   text-decoration: none;
-  border-bottom: 1px solid rgba(233, 185, 73, 0.7);
+  border-bottom: 1px solid var(--gold-500);
+  padding-bottom: 1px;
   transition: color 160ms ease;
 }
 
-.site-footer__meta a:hover {
-  color: var(--ink-800);
+.help__outro a:hover {
+  color: #8a6a1f;
 }
 
 /* --------------------------------------------------------------------------
@@ -528,27 +553,6 @@ img {
   color: var(--ink-800);
 }
 
-.offer__cta {
-  margin-top: 18px;
-  padding-top: 16px;
-  border-top: 1px solid rgba(93, 86, 76, 0.12);
-  font-size: 13px;
-  line-height: 1.7;
-  color: var(--paper-700);
-}
-
-.offer__cta a {
-  color: var(--ink-800);
-  text-decoration: none;
-  border-bottom: 1px solid var(--gold-500);
-  padding-bottom: 1px;
-  transition: color 160ms ease;
-}
-
-.offer__cta a:hover {
-  color: #8a6a1f;
-}
-
 @media (max-width: 760px) {
   .offers {
     grid-template-columns: minmax(0, 1fr);
@@ -557,5 +561,21 @@ img {
   .offer__row {
     grid-template-columns: minmax(0, 1fr);
     gap: 2px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   10. Small screens — menu bar must fit three pills on one row
+   -------------------------------------------------------------------------- */
+@media (max-width: 640px) {
+  .menu-bar {
+    gap: 4px;
+    padding: 10px 12px;
+  }
+
+  .menu-bar__link {
+    padding: 7px 10px;
+    font-size: 9px;
+    letter-spacing: 0.16em;
   }
 }
