@@ -82,10 +82,10 @@ img {
   padding: calc(var(--gutter) + 54px) var(--gutter) var(--gutter);
   overflow: hidden;
   background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.46 0 0 0 0 0.49 0 0 0 0 0.56 0 0 0 0.42 0'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23g)'/%3E%3C/svg%3E"),
-    radial-gradient(120% 90% at 68% 8%, var(--ink-600) 0%, rgba(28, 39, 69, 0) 58%),
-    radial-gradient(90% 70% at 12% 78%, #131c33 0%, rgba(19, 28, 51, 0) 62%),
-    linear-gradient(168deg, var(--ink-800) 0%, var(--ink-900) 100%);
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.55 0 0 0 0 0.44 0 0 0 0 0.28 0 0 0 0.4 0'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23g)'/%3E%3C/svg%3E"),
+    radial-gradient(120% 90% at 68% 8%, #a87f4f 0%, rgba(168, 127, 79, 0) 58%),
+    radial-gradient(90% 70% at 12% 78%, #8a6a42 0%, rgba(138, 106, 66, 0) 62%),
+    linear-gradient(168deg, #966f45 0%, #6e5233 100%);
 }
 
 .hero__content {
@@ -171,7 +171,7 @@ img {
   position: relative;
   min-height: 100vh;
   overflow: hidden;
-  background: linear-gradient(180deg, #101a33 0%, #070c1c 100%);
+  background: linear-gradient(180deg, #a87f4f 0%, #75573a 100%);
 }
 
 .wall__rock,
@@ -198,7 +198,7 @@ img {
   inset: 0;
   z-index: 2;
   pointer-events: none;
-  background: radial-gradient(115% 85% at 50% 42%, rgba(0, 0, 0, 0) 52%, rgba(4, 7, 15, 0.5) 100%);
+  background: radial-gradient(115% 85% at 50% 42%, rgba(0, 0, 0, 0) 52%, rgba(38, 22, 6, 0.45) 100%);
 }
 
 /* route segments between holds — hidden until both ends are lit */
@@ -251,18 +251,17 @@ img {
   display: inline-block;
   max-width: 44ch;
   padding: 12px 18px;
-  border-left: 2px solid var(--gold-500);
-  background: rgba(7, 12, 28, 0.55);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
+  border-left: 3px solid var(--gold-500);
+  background: rgba(243, 234, 217, 0.95);
+  box-shadow: 0 8px 22px rgba(46, 28, 8, 0.35);
   font-size: 13px;
   line-height: 1.75;
-  color: rgba(239, 231, 216, 0.92);
+  color: #4a3a22;
 }
 
 .wall__hint b {
   font-weight: 400;
-  color: var(--gold-400);
+  color: #8a6a1f;
 }
 
 /* the climber */
@@ -271,8 +270,8 @@ img {
   z-index: 5;
   left: 18%;
   top: 82%;
-  transform: translate(-50%, -108%);
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.55));
+  transform: translate(-50%, -96%);
+  filter: drop-shadow(0 3px 5px rgba(46, 28, 8, 0.55));
   pointer-events: none;
 }
 
@@ -312,30 +311,36 @@ img {
   transition: transform 220ms ease, opacity 700ms ease;
 }
 
+/* hold photos — generated resin holds with the background removed */
+.hold--red .hold__rock { background-image: url("../assets/holds/hold-red.png"); }
+.hold--purple .hold__rock { background-image: url("../assets/holds/hold-purple.png"); }
+.hold--teal .hold__rock { background-image: url("../assets/holds/hold-teal.png"); }
+.hold--amber .hold__rock { background-image: url("../assets/holds/hold-amber.png"); }
+
 .hold__rock {
   position: absolute;
   inset: 0;
-  border-radius: 46% 54% 58% 42% / 52% 46% 54% 48%;
-  background: radial-gradient(circle at 30% 26%, var(--hold-hi, #ffa48f), var(--hold-lo, #c0392b) 72%);
-  box-shadow:
-    inset -4px -6px 10px rgba(0, 0, 0, 0.45),
-    inset 4px 5px 8px rgba(255, 255, 255, 0.26),
-    0 8px 18px rgba(0, 0, 0, 0.45);
-  transition: box-shadow 260ms ease, background 260ms ease;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 7px 8px rgba(46, 28, 8, 0.5));
+  transition: filter 260ms ease;
 }
 
-/* bolt in the middle of the hold */
-.hold__rock::after {
+/* gold halo behind a lit hold */
+.hold::before {
   content: "";
   position: absolute;
-  left: 50%;
-  top: 46%;
-  width: 7px;
-  height: 7px;
-  transform: translate(-50%, -50%);
+  inset: -28%;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.35);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.65), 0 1px 0 rgba(255, 255, 255, 0.18);
+  background: radial-gradient(circle, rgba(233, 185, 73, 0.42) 0%, rgba(233, 185, 73, 0) 68%);
+  opacity: 0;
+  transition: opacity 300ms ease;
+  pointer-events: none;
+}
+
+.hold.is-lit::before {
+  opacity: 1;
 }
 
 .hold:hover {
@@ -349,12 +354,10 @@ img {
 }
 
 .hold.is-lit .hold__rock {
-  background: radial-gradient(circle at 30% 26%, #ffe9b4, var(--gold-500) 70%);
-  box-shadow:
-    inset -4px -6px 10px rgba(120, 80, 10, 0.35),
-    inset 4px 5px 8px rgba(255, 255, 255, 0.45),
-    0 0 22px rgba(233, 185, 73, 0.65),
-    0 0 64px rgba(233, 185, 73, 0.3);
+  filter: brightness(1.07) saturate(1.12)
+    drop-shadow(0 0 12px rgba(233, 185, 73, 0.95))
+    drop-shadow(0 0 34px rgba(233, 185, 73, 0.55))
+    drop-shadow(0 7px 8px rgba(46, 28, 8, 0.5));
 }
 
 .hold__tag {
@@ -379,7 +382,9 @@ img {
 
 /* wrong hold */
 .hold.is-wrong .hold__rock {
-  background: radial-gradient(circle at 30% 26%, #ffb3a7, #c0392b 72%);
+  filter: brightness(0.92) saturate(1.5)
+    drop-shadow(0 0 12px rgba(226, 72, 48, 0.9))
+    drop-shadow(0 0 30px rgba(226, 72, 48, 0.5));
   animation: holdShake 420ms ease;
 }
 
@@ -401,6 +406,34 @@ img {
     transform: translateX(4px) rotate(2deg);
   }
 }
+
+/* decorative holds — realistic texture, no interaction */
+.dholds {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.dhold {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--s);
+  height: var(--s);
+  transform: translate(-50%, -50%) rotate(var(--r, 0deg));
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  filter: brightness(0.85) saturate(0.92) drop-shadow(0 4px 5px rgba(46, 28, 8, 0.45));
+  opacity: 0.92;
+}
+
+.dhold--red { background-image: url("../assets/holds/hold-red.png"); }
+.dhold--purple { background-image: url("../assets/holds/hold-purple.png"); }
+.dhold--teal { background-image: url("../assets/holds/hold-teal.png"); }
+.dhold--amber { background-image: url("../assets/holds/hold-amber.png"); }
+.dhold--blue { background-image: url("../assets/holds/hold-blue.png"); }
 
 /* the whole route falls when the climb fails */
 .hold.is-falling {
@@ -461,7 +494,7 @@ img {
 }
 
 .wall__status.is-bad {
-  color: #ffb3a7;
+  color: #ffc9bd;
 }
 
 /* respect reduced-motion: instant feedback, no shake or fall */
