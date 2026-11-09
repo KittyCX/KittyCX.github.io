@@ -2,8 +2,8 @@
    Leo Xu — climbing wall game (the whole site lives on this one page)
    --------------------------------------------------------------------------
    Four holds form a route: About me → Rock Climbing → Projects → Help.
-   Tap the correct next hold: it lights up, the route line draws to it,
-   the chalk hand moves up, and the hold's popup card opens.
+   Tap the correct next hold: it lights up, the hand fades out, re-appears
+   at the new hold, fades in — and the hold's popup card opens.
    Tap a wrong hold: the wall shakes, everything falls, and the route resets.
    Progress is kept in localStorage so lit holds stay lit when you come back.
    ========================================================================== */
@@ -13,7 +13,6 @@
   var wall = document.getElementById("wall");
   var climber = document.getElementById("climber");
   var holds = Array.prototype.slice.call(document.querySelectorAll(".hold"));
-  var segments = Array.prototype.slice.call(document.querySelectorAll(".route-seg"));
 
   /* keep the holds in their climb order, whatever the DOM order is */
   holds.sort(function (a, b) {
@@ -21,7 +20,7 @@
   });
 
   var STORAGE_KEY = "leoxu.climb.progress";
-  var OPEN_MS = 550; /* pause so the lit hold is visible before the card opens */
+  var FADE_MS = 380; /* hand fade-out before it re-appears elsewhere */
   var FALL_MS = 850; /* falling animation duration */
 
   var progress = 0;
@@ -93,27 +92,18 @@
     }
   });
 
-  /* ---------- visuals ---------- */
-  function paintRoute() {
-    /* segment i joins hold i and hold i+1 — show it once both ends are lit */
-    segments.forEach(function (seg, i) {
-      seg.classList.toggle("is-on", progress >= i + 2);
-    });
+  /* ---------- the hand ---------- */
+  function currentHold() {
+    return holds[Math.max(0, progress - 1)]; /* grips the highest lit hold */
   }
 
-  function moveClimber() {
-    if (!climber) {
-      return;
-    }
-    var idx = Math.max(0, progress - 1); /* grips the highest lit hold */
-    var hold = holds[idx];
-    if (!hold) {
+  /* put the hand at a hold (instant) and swap in the matching colored grip */
+  function placeHand(hold) {
+    if (!climber || !hold) {
       return;
     }
     climber.style.left = hold.style.getPropertyValue("--x");
     climber.style.top = hold.style.getPropertyValue("--y");
-
-    /* swap in the matching colored grip and hide the wall hold beneath */
     var img = climber.querySelector("img");
     if (img) {
       var want = "assets/holds/grip-" + (hold.dataset.color || "red") + ".png";
@@ -126,25 +116,36 @@
     });
   }
 
-  /* preload the grip images so swapping never flashes */
-  holds.forEach(function (hold) {
-    var pre = new Image();
-    pre.src = "assets/holds/grip-" + (hold.dataset.color || "red") + ".png";
-  });
+  /* fade the hand out, re-appear at the new hold, fade back in */
+  function glideHand(hold) {
+    if (!climber) {
+      return;
+    }
+    climber.classList.add("is-fading");
+    window.setTimeout(function () {
+      placeHand(hold);
+      /* let the browser register opacity 0 before fading back in */
+      window.requestAnimationFrame(function () {
+        window.requestAnimationFrame(function () {
+          climber.classList.remove("is-fading");
+        });
+      });
+    }, FADE_MS);
+  }
 
   /* ---------- moves ---------- */
-  function correctMove(hold, i) {
-    progress = i + 1;
+  function correctMove(hold) {
+    progress = holds.indexOf(hold) + 1;
     hold.classList.add("is-lit");
     save();
-    paintRoute();
-    moveClimber();
-
     busy = true;
+    glideHand(hold);
+
+    /* the card opens as the hand fades back in at its new hold */
     window.setTimeout(function () {
       openModal(hold.dataset.modal, hold);
       busy = false;
-    }, OPEN_MS);
+    }, FADE_MS + 120);
   }
 
   function wrongMove(hold) {
@@ -168,9 +169,15 @@
         holds.forEach(function (h) {
           h.classList.remove("is-falling", "is-lit");
         });
+        /* hide the container first so the fallen hand does not snap back */
+        climber.classList.add("is-fading");
         climber.classList.remove("is-falling");
-        paintRoute();
-        moveClimber();
+        placeHand(currentHold());
+        window.requestAnimationFrame(function () {
+          window.requestAnimationFrame(function () {
+            climber.classList.remove("is-fading");
+          });
+        });
         busy = false;
       }, FALL_MS);
     }, 420);
@@ -188,15 +195,21 @@
         window.setTimeout(function () {
           openModal(hold.dataset.modal, hold);
           busy = false;
-        }, 300);
+        }, 250);
         return;
       }
       if (i === progress) {
-        correctMove(hold, i);
+        correctMove(hold);
         return;
       }
       wrongMove(hold);
     });
+  });
+
+  /* preload the grip images so swapping never flashes */
+  holds.forEach(function (hold) {
+    var pre = new Image();
+    pre.src = "assets/holds/grip-" + (hold.dataset.color || "red") + ".png";
   });
 
   /* ---------- start ---------- */
@@ -206,12 +219,5 @@
       hold.classList.add("is-lit");
     }
   });
-  paintRoute();
-  moveClimber();
-  /* enable the climb transition only after the first position is set */
-  window.requestAnimationFrame(function () {
-    if (climber) {
-      climber.classList.add("is-ready");
-    }
-  });
+  placeHand(currentHold());
 })();

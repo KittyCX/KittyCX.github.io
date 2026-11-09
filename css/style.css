@@ -76,21 +76,13 @@ img {
   background: linear-gradient(180deg, #a87f4f 0%, #75573a 100%);
 }
 
-.wall__rock,
-.wall__route {
+.wall__rock {
   position: absolute;
   inset: 0;
+  z-index: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
-}
-
-.wall__rock {
-  z-index: 0;
-}
-
-.wall__route {
-  z-index: 1;
 }
 
 /* edge falloff so the wall feels lit from above */
@@ -101,20 +93,6 @@ img {
   z-index: 2;
   pointer-events: none;
   background: radial-gradient(115% 85% at 50% 42%, rgba(0, 0, 0, 0) 52%, rgba(38, 22, 6, 0.45) 100%);
-}
-
-/* route segments between holds — hidden until both ends are lit */
-.route-seg {
-  stroke: var(--gold-500);
-  stroke-width: 2.5;
-  stroke-linecap: round;
-  opacity: 0;
-  transition: opacity 320ms ease;
-  vector-effect: non-scaling-stroke;
-}
-
-.route-seg.is-on {
-  opacity: 0.85;
 }
 
 /* chalk heading + how-to hint */
@@ -166,7 +144,8 @@ img {
   color: #8a6a1f;
 }
 
-/* the climber — a real hand photo gripping the current hold */
+/* the climber — a real hand photo gripping the current hold.
+   it never slides: it fades out, re-appears at the new hold, fades in. */
 .climber {
   position: absolute;
   z-index: 5;
@@ -175,7 +154,12 @@ img {
   height: clamp(150px, 16vw, 230px);
   transform: translate(-50%, -50%);
   filter: drop-shadow(0 5px 7px rgba(46, 28, 8, 0.55));
+  transition: opacity 380ms ease;
   pointer-events: none;
+}
+
+.climber.is-fading {
+  opacity: 0;
 }
 
 .climber img {
@@ -187,11 +171,6 @@ img {
 /* the wall hold is replaced by the one in the hand while gripped */
 .hold.is-gripped .hold__rock {
   opacity: 0;
-}
-
-.climber.is-ready {
-  transition: left 550ms cubic-bezier(0.45, 0.05, 0.55, 0.95),
-    top 550ms cubic-bezier(0.45, 0.05, 0.55, 0.95);
 }
 
 .climber.is-falling img {
@@ -793,8 +772,7 @@ body.has-modal {
     animation: none;
   }
 
-  .climber.is-ready,
-  .route-seg,
+  .climber,
   .hold,
   .hold__tag {
     transition: none;
