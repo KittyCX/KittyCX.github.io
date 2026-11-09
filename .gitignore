@@ -5,8 +5,10 @@
 assets/_source/
 assets/climb_art.jpg
 
-# Raw AI-generated hold images — only the processed assets/holds/hold-*.png are used
-assets/holds/A*
+# Raw AI-generated images in assets/holds — only the processed files are used
+assets/holds/*
+!assets/holds/hold-*.png
+!assets/holds/grip-*.png
 
 # WorkBuddy workspace data
 .workbuddy/
