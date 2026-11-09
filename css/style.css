@@ -166,15 +166,15 @@ img {
   color: #8a6a1f;
 }
 
-/* the climber — a real hand photo reaching from the current hold */
+/* the climber — a real hand photo gripping the current hold */
 .climber {
   position: absolute;
   z-index: 5;
   left: 18%;
   top: 82%;
-  height: clamp(96px, 13vw, 148px);
-  transform: translate(-50%, -100%);
-  filter: drop-shadow(0 4px 6px rgba(46, 28, 8, 0.55));
+  height: clamp(150px, 16vw, 230px);
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 5px 7px rgba(46, 28, 8, 0.55));
   pointer-events: none;
 }
 
@@ -182,6 +182,11 @@ img {
   display: block;
   height: 100%;
   width: auto;
+}
+
+/* the wall hold is replaced by the one in the hand while gripped */
+.hold.is-gripped .hold__rock {
+  opacity: 0;
 }
 
 .climber.is-ready {

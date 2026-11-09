@@ -105,14 +105,32 @@
     if (!climber) {
       return;
     }
-    var idx = Math.max(0, progress - 1); /* stands on the highest lit hold */
+    var idx = Math.max(0, progress - 1); /* grips the highest lit hold */
     var hold = holds[idx];
     if (!hold) {
       return;
     }
     climber.style.left = hold.style.getPropertyValue("--x");
     climber.style.top = hold.style.getPropertyValue("--y");
+
+    /* swap in the matching colored grip and hide the wall hold beneath */
+    var img = climber.querySelector("img");
+    if (img) {
+      var want = "assets/holds/grip-" + (hold.dataset.color || "red") + ".png";
+      if (img.getAttribute("src") !== want) {
+        img.setAttribute("src", want);
+      }
+    }
+    holds.forEach(function (h) {
+      h.classList.toggle("is-gripped", h === hold);
+    });
   }
+
+  /* preload the grip images so swapping never flashes */
+  holds.forEach(function (hold) {
+    var pre = new Image();
+    pre.src = "assets/holds/grip-" + (hold.dataset.color || "red") + ".png";
+  });
 
   /* ---------- moves ---------- */
   function correctMove(hold, i) {
