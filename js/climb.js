@@ -11,7 +11,6 @@
   "use strict";
 
   var wall = document.getElementById("wall");
-  var status = document.getElementById("climbStatus");
   var climber = document.getElementById("climber");
   var holds = Array.prototype.slice.call(document.querySelectorAll(".hold"));
   var segments = Array.prototype.slice.call(document.querySelectorAll(".route-seg"));
@@ -115,15 +114,6 @@
     climber.style.top = hold.style.getPropertyValue("--y");
   }
 
-  function say(message, isBad) {
-    if (!status) {
-      return;
-    }
-    status.textContent = message;
-    status.classList.toggle("is-bad", Boolean(isBad));
-    status.classList.add("is-on");
-  }
-
   /* ---------- moves ---------- */
   function correctMove(hold, i) {
     progress = i + 1;
@@ -131,12 +121,6 @@
     save();
     paintRoute();
     moveClimber();
-
-    if (progress === holds.length) {
-      say("Summit! Every hold is lit — opening the last card.");
-    } else {
-      say("Nice move — opening " + hold.dataset.name + "…");
-    }
 
     busy = true;
     window.setTimeout(function () {
@@ -149,7 +133,6 @@
     busy = true;
     hold.classList.add("is-wrong");
     wall.classList.add("is-shake");
-    say("Wrong hold — you fell! Climb again.", true);
 
     /* let the wrong hold flash first, then the whole route falls */
     window.setTimeout(function () {
@@ -170,7 +153,6 @@
         climber.classList.remove("is-falling");
         paintRoute();
         moveClimber();
-        say("Back to the ground — start again!");
         busy = false;
       }, FALL_MS);
     }, 420);
@@ -184,7 +166,6 @@
       }
       if (i < progress) {
         /* already climbed — the card stays available for a revisit */
-        say("Revisiting " + hold.dataset.name + "…");
         busy = true;
         window.setTimeout(function () {
           openModal(hold.dataset.modal, hold);
