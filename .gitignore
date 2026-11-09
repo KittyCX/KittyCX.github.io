@@ -1,8 +1,9 @@
 # macOS system files
 .DS_Store
 
-# Original design sources — site only needs assets/climb_art.jpg
+# Original design sources and the old homepage illustration (now removed)
 assets/_source/
+assets/climb_art.jpg
 
 # WorkBuddy workspace data
 .workbuddy/
