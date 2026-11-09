@@ -1,9 +1,9 @@
 /* ==========================================================================
-   Leo Xu — climbing wall game (homepage)
+   Leo Xu — climbing wall game (the whole site lives on this one page)
    --------------------------------------------------------------------------
    Four holds form a route: About me → Rock Climbing → Projects → Help.
    Tap the correct next hold: it lights up, the route line draws to it,
-   the climber moves up, and its page opens.
+   the chalk hand moves up, and the hold's popup card opens.
    Tap a wrong hold: the wall shakes, everything falls, and the route resets.
    Progress is kept in localStorage so lit holds stay lit when you come back.
    ========================================================================== */
@@ -22,12 +22,12 @@
   });
 
   var STORAGE_KEY = "leoxu.climb.progress";
-  var MOVE_MS = 550; /* climber step duration — keep in sync with CSS */
-  var OPEN_MS = 950; /* pause so the lit hold is visible before navigating */
+  var OPEN_MS = 550; /* pause so the lit hold is visible before the card opens */
   var FALL_MS = 850; /* falling animation duration */
 
   var progress = 0;
   var busy = false;
+  var lastTrigger = null; /* hold that opened the current card */
 
   /* ---------- progress persistence ---------- */
   function load() {
@@ -49,20 +49,57 @@
     }
   }
 
+  /* ---------- popup cards ---------- */
+  function openModal(id, trigger) {
+    var modal = document.getElementById(id);
+    if (!modal) {
+      return;
+    }
+    lastTrigger = trigger || null;
+    modal.classList.add("is-open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("has-modal");
+    var closeBtn = modal.querySelector(".modal__close");
+    if (closeBtn) {
+      closeBtn.focus();
+    }
+  }
+
+  function closeModal() {
+    var open = document.querySelector(".modal.is-open");
+    if (!open) {
+      return;
+    }
+    open.classList.remove("is-open");
+    open.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("has-modal");
+    if (lastTrigger && typeof lastTrigger.focus === "function") {
+      lastTrigger.focus();
+    }
+    lastTrigger = null;
+  }
+
+  /* close on the × button or the backdrop */
+  document.addEventListener("click", function (e) {
+    var closer = e.target.closest ? e.target.closest("[data-close]") : null;
+    if (closer) {
+      closeModal();
+    }
+  });
+
+  /* close on Escape */
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" || e.key === "Esc") {
+      closeModal();
+    }
+  });
+
   /* ---------- visuals ---------- */
   function paintRoute() {
     /* segment i joins hold i and hold i+1 — show it once both ends are lit */
     segments.forEach(function (seg, i) {
       seg.classList.toggle("is-on", progress >= i + 2);
     });
-  }
-
-  function holdX(hold) {
-    return hold.style.getPropertyValue("--x");
-  }
-
-  function holdY(hold) {
-    return hold.style.getPropertyValue("--y");
   }
 
   function moveClimber() {
@@ -74,8 +111,8 @@
     if (!hold) {
       return;
     }
-    climber.style.left = holdX(hold);
-    climber.style.top = holdY(hold);
+    climber.style.left = hold.style.getPropertyValue("--x");
+    climber.style.top = hold.style.getPropertyValue("--y");
   }
 
   function say(message, isBad) {
@@ -96,14 +133,15 @@
     moveClimber();
 
     if (progress === holds.length) {
-      say("Summit! Every hold is lit — opening the last page.");
+      say("Summit! Every hold is lit — opening the last card.");
     } else {
       say("Nice move — opening " + hold.dataset.name + "…");
     }
 
     busy = true;
     window.setTimeout(function () {
-      window.location.href = hold.dataset.href;
+      openModal(hold.dataset.modal, hold);
+      busy = false;
     }, OPEN_MS);
   }
 
@@ -145,12 +183,13 @@
         return;
       }
       if (i < progress) {
-        /* already climbed — the page stays open for a revisit */
+        /* already climbed — the card stays available for a revisit */
         say("Revisiting " + hold.dataset.name + "…");
         busy = true;
         window.setTimeout(function () {
-          window.location.href = hold.dataset.href;
-        }, 400);
+          openModal(hold.dataset.modal, hold);
+          busy = false;
+        }, 300);
         return;
       }
       if (i === progress) {

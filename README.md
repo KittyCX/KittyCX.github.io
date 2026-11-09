@@ -2,21 +2,21 @@
 
 Personal profile page for Leo Xu (Grade 9 · 2026).
 
-Built as a static site — plain HTML + CSS + a little vanilla JS, no build step:
+The whole site is **one page**: a wooden climbing wall. Built as a static
+site — plain HTML + CSS + a little vanilla JS, no build step:
 
-- `index.html` — homepage **is a climbing wall**: four holds form a route
+- `index.html` — the climbing wall. Four holds form a route
   (About me → Rock Climbing → Projects → Help). Tap the correct next hold to
-  light it up and open its page; a wrong hold makes you fall and the route
-  resets. Progress is saved in `localStorage`.
-- `about.html` — "About me" placeholder page (content coming soon)
-- `climbing.html` — "Rock Climbing" placeholder page (content coming soon)
-- `projects.html` — "Projects" placeholder page (content coming soon)
-- `help.html` — "Help" page: three ways I can help (Delta Force coin runs,
-  Genshin dailies, craftsmanship), each with expandable details
+  light it up and open its **popup card**; a wrong hold makes you fall and the
+  route resets. Progress is saved in `localStorage`. All content lives in the
+  popup cards at the bottom of this file.
+- `css/style.css` — design tokens, wall/hold styles, popup styles, offer cards
+- `js/climb.js` — climbing-wall game logic (order checking, light-up, fall,
+  reset, popup open/close)
+- `assets/holds/hold-*.png` — generated resin climbing-hold photos
+  (backgrounds removed) used for the route holds and the decorative holds
 - `how-can-i-help.md` — reflection document for the "How can I help" assignment
-- `css/style.css` — design tokens, wall/hold styles, inner-page styles
-- `js/climb.js` — climbing-wall game logic (order checking, light-up, fall, reset)
 
-All pages share a fixed top menu bar: **Home · About me · Help**.
+There is no navigation bar: the wall is the navigation.
 
 Deployed with GitHub Pages via the workflow in `.github/workflows/`.

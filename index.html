@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Leo Xu</title>
-  <meta name="description" content="Leo Xu — personal profile. Climb the wall: tap the holds in order to explore the site." />
+  <meta name="description" content="Leo Xu — personal profile. Climb the wall: tap the holds in order to explore." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,9 +17,9 @@
 
 <body>
   <!-- ===================== Climbing wall ===================== -->
-  <!-- The homepage IS a wooden climbing wall. Four holds form a route from
-       the ground to the top; tap them in order (Help is the last, at the top).
-       A wrong hold makes you fall and the route resets. -->
+  <!-- The whole site IS this wall. Four holds form a route from the ground
+       to the top; tap them in order (Help is the last, at the top). Each
+       hold opens a popup card. A wrong hold makes you fall and resets. -->
   <main class="wall" id="wall">
     <!-- wooden rock face -->
     <svg class="wall__rock" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
@@ -145,7 +145,7 @@
       <h1 class="wall__name">Leo Xu</h1>
       <p class="wall__hint">
         <b>Climb the wall:</b> tap the holds <b>in order</b> to reach the top
-        &mdash; each hold opens a page. A wrong hold and you fall!
+        &mdash; each hold opens a card. A wrong hold and you fall!
       </p>
     </div>
 
@@ -177,7 +177,7 @@
       class="hold hold--red"
       type="button"
       data-step="0"
-      data-href="about.html"
+      data-modal="modal-about"
       data-name="About me"
       style="--x: 18%; --y: 82%"
       aria-label="Climbing hold 1 of 4 — About me"
@@ -190,7 +190,7 @@
       class="hold hold--purple"
       type="button"
       data-step="1"
-      data-href="climbing.html"
+      data-modal="modal-climbing"
       data-name="Rock Climbing"
       style="--x: 58%; --y: 63%"
       aria-label="Climbing hold 2 of 4 — Rock Climbing"
@@ -203,7 +203,7 @@
       class="hold hold--teal"
       type="button"
       data-step="2"
-      data-href="projects.html"
+      data-modal="modal-projects"
       data-name="Projects"
       style="--x: 30%; --y: 42%"
       aria-label="Climbing hold 3 of 4 — Projects"
@@ -216,7 +216,7 @@
       class="hold hold--amber"
       type="button"
       data-step="3"
-      data-href="help.html"
+      data-modal="modal-help"
       data-name="Help"
       style="--x: 74%; --y: 20%"
       aria-label="Climbing hold 4 of 4 — Help, the last hold"
@@ -234,6 +234,194 @@
     <p class="site-footer__mark">Leo Xu</p>
     <p class="site-footer__meta">Personal profile &middot; 2026</p>
   </footer>
+
+  <!-- ===================== Popup cards ===================== -->
+  <!-- TODO(About me): 占位内容——以后把真正的自我介绍放在这段 modal__text 里即可 -->
+  <div class="modal" id="modal-about" aria-hidden="true">
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="modal-about-title">
+      <button class="modal__close" type="button" data-close aria-label="Close">
+        <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M2 2 L14 14 M14 2 L2 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+      </button>
+      <div class="modal__body">
+        <p class="modal__eyebrow">Leo Xu &middot; Grade 9 &middot; 2026</p>
+        <h2 class="modal__title" id="modal-about-title">About me</h2>
+        <p class="modal__text">
+          This card is a work in progress &mdash; I'm still deciding what
+          belongs here. For now, the quickest way to know me is through
+          what I can help with.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TODO(Rock Climbing): 占位内容——以后把攀岩故事/照片放在这段 modal__text 里即可 -->
+  <div class="modal" id="modal-climbing" aria-hidden="true">
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="modal-climbing-title">
+      <button class="modal__close" type="button" data-close aria-label="Close">
+        <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M2 2 L14 14 M14 2 L2 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+      </button>
+      <div class="modal__body">
+        <p class="modal__eyebrow">Leo Xu &middot; Grade 9 &middot; 2026</p>
+        <h2 class="modal__title" id="modal-climbing-title">Rock Climbing</h2>
+        <p class="modal__text">
+          Nothing here yet &mdash; indoor walls, chalked hands, and the
+          quiet before the first move. Check back soon.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TODO(Projects): 占位内容——以后把做过的项目放在这段 modal__text 里即可 -->
+  <div class="modal" id="modal-projects" aria-hidden="true">
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="modal-projects-title">
+      <button class="modal__close" type="button" data-close aria-label="Close">
+        <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M2 2 L14 14 M14 2 L2 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+      </button>
+      <div class="modal__body">
+        <p class="modal__eyebrow">Leo Xu &middot; Grade 9 &middot; 2026</p>
+        <h2 class="modal__title" id="modal-projects-title">Projects</h2>
+        <p class="modal__text">
+          Nothing here yet &mdash; this website itself started as a design
+          file, so it will probably be the first thing on the list.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Help — the last hold. TODO(Help): 三张提议卡内容可继续修改 -->
+  <div class="modal" id="modal-help" aria-hidden="true">
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="modal-help-title">
+      <button class="modal__close" type="button" data-close aria-label="Close">
+        <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M2 2 L14 14 M14 2 L2 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+      </button>
+      <div class="modal__body">
+        <p class="modal__eyebrow">Ask me about &middot; I can help you with</p>
+        <h2 class="modal__title" id="modal-help-title">How I can help</h2>
+        <p class="modal__sub">
+          Not a class &mdash; just things I enjoy doing together. Pick one
+          and say hi.
+        </p>
+
+        <div class="offers">
+          <!-- Offer 01: Delta Force — coin runs -->
+          <article class="offer">
+            <div class="offer__head">
+              <p class="offer__eyebrow">Offer 01 &middot; Gaming</p>
+              <h3 class="offer__title">Delta Force &middot; 跑币</h3>
+              <p class="offer__summary">
+                Farm maps together and learn to extract safely &mdash; I'll
+                show you the routes that pay.
+              </p>
+            </div>
+            <details class="offer__details">
+              <summary class="offer__toggle">
+                <span>Activity details</span>
+                <span class="offer__toggle-icon" aria-hidden="true"></span>
+              </summary>
+              <div class="offer__body">
+                <dl class="offer__row">
+                  <dt>Who</dt>
+                  <dd>Anyone who wants to learn the game or find regular teammates.</dd>
+                </dl>
+                <dl class="offer__row">
+                  <dt>What</dt>
+                  <dd>Co-op runs &mdash; learn the routes, loot smart, and get out alive together.</dd>
+                </dl>
+                <dl class="offer__row">
+                  <dt>Time</dt>
+                  <dd>About 1 hour, 1&ndash;2 times a week.</dd>
+                </dl>
+                <dl class="offer__row">
+                  <dt>Start</dt>
+                  <dd>Say &ldquo;want to run?&rdquo; at school &mdash; first run I'll lead.</dd>
+                </dl>
+              </div>
+            </details>
+          </article>
+
+          <!-- Offer 02: Genshin Impact — daily grinding -->
+          <article class="offer">
+            <div class="offer__head">
+              <p class="offer__eyebrow">Offer 02 &middot; Gaming</p>
+              <h3 class="offer__title">Genshin Impact &middot; 代肝</h3>
+              <p class="offer__summary">
+                Dailies, resin, and events &mdash; clear them together, or
+                get a plan for what's worth your time.
+              </p>
+            </div>
+            <details class="offer__details">
+              <summary class="offer__toggle">
+                <span>Activity details</span>
+                <span class="offer__toggle-icon" aria-hidden="true"></span>
+              </summary>
+              <div class="offer__body">
+                <dl class="offer__row">
+                  <dt>Who</dt>
+                  <dd>Anyone learning the game or coming back after a break.</dd>
+                </dl>
+                <dl class="offer__row">
+                  <dt>What</dt>
+                  <dd>Play together &mdash; dailies, resin, and a plan for what to level first.</dd>
+                </dl>
+                <dl class="offer__row">
+                  <dt>Time</dt>
+                  <dd>A few 30-minute slots a week.</dd>
+                </dl>
+                <dl class="offer__row">
+                  <dt>Start</dt>
+                  <dd>Tell me what you're working on and we'll book a slot.</dd>
+                </dl>
+              </div>
+            </details>
+          </article>
+
+          <!-- Offer 03: Craftsmanship -->
+          <article class="offer">
+            <div class="offer__head">
+              <p class="offer__eyebrow">Offer 03 &middot; Craft</p>
+              <h3 class="offer__title">Craftsmanship</h3>
+              <p class="offer__summary">
+                Take one idea from rough sketch to something you can hold.
+              </p>
+            </div>
+            <details class="offer__details">
+              <summary class="offer__toggle">
+                <span>Activity details</span>
+                <span class="offer__toggle-icon" aria-hidden="true"></span>
+              </summary>
+              <div class="offer__body">
+                <dl class="offer__row">
+                  <dt>Who</dt>
+                  <dd>Anyone who wants to make something but doesn't know where to start.</dd>
+                </dl>
+                <dl class="offer__row">
+                  <dt>What</dt>
+                  <dd>One small project, start to finish &mdash; sketch, materials, and fixing mistakes together.</dd>
+                </dl>
+                <dl class="offer__row">
+                  <dt>Time</dt>
+                  <dd>A weekend session every other week, 1&ndash;2 hours.</dd>
+                </dl>
+                <dl class="offer__row">
+                  <dt>Start</dt>
+                  <dd>Bring an idea (or just curiosity) and we'll book a weekend.</dd>
+                </dl>
+              </div>
+            </details>
+          </article>
+        </div>
+
+        <p class="help__outro">
+          Ready? Catch me at school, or
+          <a href="https://github.com/KittyCX" target="_blank" rel="noopener">ping me on GitHub</a>.
+        </p>
+      </div>
+    </div>
+  </div>
 
   <script src="js/climb.js"></script>
 </body>
