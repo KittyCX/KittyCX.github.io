@@ -491,6 +491,44 @@ img {
   color: var(--paper-700);
 }
 
+.modal__text b {
+  font-weight: 500;
+  color: var(--ink-800);
+}
+
+/* photo placeholders — swap a .photo-slot for an <img> when photos arrive */
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+  margin-top: 26px;
+}
+
+.photo-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  padding: 12px;
+  border: 1.5px dashed rgba(93, 86, 76, 0.35);
+  border-radius: 4px;
+  background: rgba(93, 86, 76, 0.05);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-align: center;
+  color: rgba(93, 86, 76, 0.5);
+}
+
+.photo-grid img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
 /* offer cards inside the Help card — one column, they are wide enough */
 .modal .offers {
   grid-template-columns: minmax(0, 1fr);
